@@ -1,0 +1,47 @@
+name: 🚀 Deploy React to GitHub Pages
+
+on:
+  push:
+    branches: [main]          # run on every push to main
+  workflow_dispatch:          # allow manual runs from the UI
+
+permissions:
+  contents: read              # pull the repo
+  pages: write                # create Pages deployments
+  id-token: write             # OIDC‑signed deployments
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node 20.x with npm cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - run: npm ci
+      - run: npm run build        # CRA builds to ./build, Vite to ./dist
+
+      # Upload the build output as a Pages artifact
+      - uses: actions/upload-pages-artifact@v2
+        with:
+          path: ./build           # swap to ./dist if you’re on Vite
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages         # Pages creates this env automatically
+      url: ${{ steps.deploy.outputs.page_url }}
+
+    permissions:
+      pages: write
+      id-token: write
+
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4    # official GitHub Pages action :contentReference[oaicite:0]{index=0}
