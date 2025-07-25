@@ -27,7 +27,7 @@ jobs:
       - run: npm run build        # CRA builds to ./build, Vite to ./dist
 
       # Upload the build output as a Pages artifact
-      - uses: actions/upload-pages-artifact@v2
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: ./build           # swap to ./dist if you’re on Vite
 
