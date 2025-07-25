@@ -13,8 +13,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: npm           # remove if you don’t want caching
+          node-version: 20        # remove if you don’t want caching
 
       - run: npm ci
       - run: npm run build      # creates ./build
