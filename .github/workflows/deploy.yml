@@ -23,7 +23,7 @@ jobs:
           node-version: 20
           cache: 'npm'
 
-      - run: npm ci
+      - run: npm i
       - run: npm run build        # CRA builds to ./build, Vite to ./dist
 
       # Upload the build output as a Pages artifact
